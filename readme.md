@@ -16,5 +16,7 @@ All additional requirements will be downloaded through maven, the main one being
 
 ------------------------------------------------------------------------------
 To build and run the project cd to the Proto directory that contains pom.xml
+
 Compile with: mvn clean install
+
 Run with mvn jetty:run
