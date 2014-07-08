@@ -19,7 +19,7 @@ import java.io.OutputStream;
 import java.util.Iterator;
 
 @XmlRootElement(name = "products")
-public class Products implements JsonWriteable {
+public class Products {
 
 	private Collection<Product> products;
 	
@@ -38,8 +38,8 @@ public class Products implements JsonWriteable {
 		Get the xml for all the values in the collection
 		Each product produces its own xml
 	*/
-	@XmlElementRef
-	public Collection<Product> getXML() {
+	@XmlElementRef(name="products")
+	public Collection<Product> getProducts() {
 		return products;
 	}
 	
@@ -47,7 +47,7 @@ public class Products implements JsonWriteable {
 	/**
 		Write all the products to json.
 		Products are JsonWriteable, this method wraps the output of each Product in a json array
-	*/
+	
 	public void writeTo(OutputStream os) throws IOException, WebApplicationException {
 		os.write("{\n".getBytes());
 		os.write("\"products\":[\n".getBytes());
@@ -65,6 +65,6 @@ public class Products implements JsonWriteable {
 	
 	}
 
-
+	*/
 
 }

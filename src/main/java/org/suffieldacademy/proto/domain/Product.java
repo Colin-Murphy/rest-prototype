@@ -19,7 +19,7 @@ import java.io.IOException;
 import javax.ws.rs.WebApplicationException;
 
 @XmlRootElement(name = "product")
-public class Product implements JsonWriteable{
+public class Product {
 
 	/**
 		Plain text name of the item
@@ -30,6 +30,7 @@ public class Product implements JsonWriteable{
 		Internal product id number
 	*/
 	private int id;
+
 	
 	/**
 		Price (in USD)
@@ -44,7 +45,7 @@ public class Product implements JsonWriteable{
 
 
 	public Product() {
-		//Nothing to do here
+		//Required for 
 	}
 	
 	/**
@@ -72,6 +73,10 @@ public class Product implements JsonWriteable{
 	public int getID() {
 		return id;
 	}
+
+	public void setID(int id) {
+		this.id = id;
+	}
 	
 	/**
 		Get the name of the product
@@ -80,6 +85,14 @@ public class Product implements JsonWriteable{
 	@XmlElement(name = "name")
 	public String getName() {
 		return name;
+	}
+
+	/**
+		Set the name of the product
+		@param name The new name
+	*/
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	/**
@@ -90,6 +103,13 @@ public class Product implements JsonWriteable{
 	public int getPrice() {
 		return price;
 	}
+
+	/**
+		Setter for the price
+	*/
+	public void setPrice(int price) {
+		this.price = price;
+	}
 	
 	/**
 		Get the quantity remaining
@@ -99,12 +119,20 @@ public class Product implements JsonWriteable{
 	public int getQuantity() {
 		return quantity;
 	}
+
+	/**
+		Setter for the price
+	*/
+	public void setQuantity(int quantity){
+		this.quantity = quantity;
+	}
 	
 	
+
 	/**
 		Output to JSON
 		@param os The output stream to write to
-	*/
+	
 	public void writeTo(OutputStream os) throws IOException, WebApplicationException {
 		//{"firstName":"John", "lastName":"Doe"}
 		
@@ -127,7 +155,7 @@ public class Product implements JsonWriteable{
 	
 	
 	}
-	
+	*/
 	
 	
 	

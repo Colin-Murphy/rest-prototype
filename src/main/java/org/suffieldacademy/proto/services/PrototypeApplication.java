@@ -20,8 +20,10 @@ public class PrototypeApplication extends Application {
 		return singletons;
 	}
 	
+	/**
 	@Override
 	public Set<Class<?>> getClasses() {
 		return classes;
 	}
+	*/
 }
