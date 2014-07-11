@@ -35,12 +35,21 @@ public class Product {
 	/**
 		Price (in USD)
 	*/
-	private int price;
+	private int price = DEFAULT_INT;
 	
 	/**
 		Number available
 	*/
-	private int quantity;
+	private int quantity = DEFAULT_INT;
+
+	/**
+		Default value for ints which are defaulted to 0
+		This is used to detect if a merged product never had a value set for a field to prevent overwriting a good value.
+
+		As of now this is used for things like price and quantity, the default value is set negative because there can't be a
+		negative price or quantity.
+	*/
+	private static final int DEFAULT_INT = -1;
 
 
 
@@ -126,12 +135,34 @@ public class Product {
 	public void setQuantity(int quantity){
 		this.quantity = quantity;
 	}
-	
-	
 
+	/**
+		Update this product by merging in a new product, any fields in the provided product with the exception of the id will overwrite this products fields
+		@param p The updated product
+	*/
+	public void merge(Product p) {
+
+		//Set the name
+		if (!p.getName().equals("")) {
+			this.setName(p.getName());
+		}
+
+		//Set the price
+		if (p.getPrice() != DEFAULT_INT) {
+			this.setPrice(p.getPrice());
+		}
+		
+		//Set the quantity
+		if (p.getQuantity() != DEFAULT_INT) {
+			this.setQuantity(p.getQuantity());
+		}
+	}
+	
+	
 	/**
 		Output to JSON
 		@param os The output stream to write to
+	*/
 	
 	public void writeTo(OutputStream os) throws IOException, WebApplicationException {
 		//{"firstName":"John", "lastName":"Doe"}
@@ -155,7 +186,6 @@ public class Product {
 	
 	
 	}
-	*/
 	
 	
 	

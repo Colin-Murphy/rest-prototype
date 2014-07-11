@@ -12,7 +12,8 @@ public class PrototypeApplication extends Application {
 
 	public PrototypeApplication() {
 		singletons.add(new ProductResource());
-		classes.add(JsonMarshaller.class);
+		//classes.add(JsonMarshaller.class);
+		classes.add(SAExceptionMapper.class);
 	}
 
 	@Override
@@ -20,10 +21,8 @@ public class PrototypeApplication extends Application {
 		return singletons;
 	}
 	
-	/**
 	@Override
 	public Set<Class<?>> getClasses() {
 		return classes;
 	}
-	*/
 }

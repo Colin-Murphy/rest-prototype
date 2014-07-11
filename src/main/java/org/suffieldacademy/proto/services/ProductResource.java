@@ -105,7 +105,7 @@ public class ProductResource {
 		
 		Product p = db.get(id);
 		if (p == null) {
-			return Response.ok().build();
+			return Response.notModified().build();
 		}
 		db.remove(id);
 
@@ -146,6 +146,59 @@ public class ProductResource {
 		db.add(p);
 
 		return p;
+
+	}
+
+	/**
+		Modify an existing item in the database
+		@param stream an XML stream containing any updated data (the id cannot be changed)
+	*/
+	@POST
+	@Consumes("application/xml")
+	@Produces("application/xml")
+	@Path("{id : \\d+}")
+	public Product editFromXml(InputStream stream, @PathParam("id") int id) throws JAXBException {
+
+		JAXBContext jaxbContext = JAXBContext.newInstance(org.suffieldacademy.proto.domain.Product.class);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		Product p = (Product) jaxbUnmarshaller.unmarshal(stream);
+
+		Product prod = db.get(id);
+		if (prod == null) {
+			throw new WebApplicationException(Response.Status.NOT_FOUND);
+		}
+
+		prod.merge(p);
+
+		return prod;
+
+
+
+	}
+
+	/**
+		Modify an existing item in the database
+		@param stream an JSON stream containing any updated data (the id cannot be changed)
+	*/
+	@POST
+	@Consumes("application/json")
+	@Produces("application/json")
+	@Path("{id : \\d+}")
+	public Product editFromJson(InputStream stream, @PathParam("id") int id) throws JsonGenerationException, IOException {
+
+		ObjectMapper mapper = new ObjectMapper();
+		Product p = mapper.readValue(stream, Product.class);
+
+		Product prod = db.get(id);
+		if (prod == null) {
+			throw new WebApplicationException(Response.Status.NOT_FOUND);
+		}
+
+		prod.merge(p);
+
+		return prod;
+
+
 
 	}
 

@@ -47,7 +47,7 @@ public class Products {
 	/**
 		Write all the products to json.
 		Products are JsonWriteable, this method wraps the output of each Product in a json array
-	
+	*/
 	public void writeTo(OutputStream os) throws IOException, WebApplicationException {
 		os.write("{\n".getBytes());
 		os.write("\"products\":[\n".getBytes());
@@ -65,6 +65,5 @@ public class Products {
 	
 	}
 
-	*/
 
 }
