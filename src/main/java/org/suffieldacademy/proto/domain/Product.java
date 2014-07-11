@@ -24,7 +24,7 @@ public class Product {
 	/**
 		Plain text name of the item
 	*/
-	private String name;
+	private String name = "";
 	
 	/**
 		Internal product id number
@@ -54,7 +54,7 @@ public class Product {
 
 
 	public Product() {
-		//Required for 
+		//Required for jaxb and jackson
 	}
 	
 	/**
@@ -66,8 +66,7 @@ public class Product {
 		@param price What it costs
 		@param quantity how many there are
 	*/
-	
-	public Product(String name, int id, int price, int quantity) {
+public Product(String name, int id, int price, int quantity) {
 		this.name = name;
 		this.id = id;
 		this.price = price;

@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.io.IOException;
 
 //Not found
-import javax.persistence.EntityNotFoundException;
+import javax.ws.rs.NotFoundException;
 
 //Product from xml
 import javax.xml.bind.JAXBContext;
@@ -47,7 +47,7 @@ public class ProductResource {
 	
 		Product p = db.get(id);
 		if (p == null) {
-			throw new EntityNotFoundException();
+			throw new NotFoundException();
 		}
 		return p;
 	}
@@ -81,7 +81,7 @@ public class ProductResource {
 	public Product getProductJson(@PathParam("id") int id) {
 		Product p = db.get(id);
 		if (p == null) {
-			throw new EntityNotFoundException();
+			throw new NotFoundException();
 		}
 		return p;
 	}
@@ -113,7 +113,7 @@ public class ProductResource {
 
 		Product p = db.get(id);
 		if (p == null) {
-			throw new EntityNotFoundException();
+			throw new NotFoundException();
 		}
 		db.remove(id);
 
@@ -131,7 +131,7 @@ public class ProductResource {
 		Product p = db.get(id);
 		//The error response could be handled here, but I let the exception mapper do it for consistant responses.
 		if (p == null) {
-			throw new EntityNotFoundException();
+			throw new NotFoundException();
 		}
 		db.remove(id);
 
@@ -191,7 +191,7 @@ public class ProductResource {
 
 		Product prod = db.get(id);
 		if (prod == null) {
-			throw new EntityNotFoundException();
+			throw new NotFoundException();
 		}
 
 		prod.merge(p);
@@ -217,7 +217,7 @@ public class ProductResource {
 
 		Product prod = db.get(id);
 		if (prod == null) {
-			throw new EntityNotFoundException();
+			throw new NotFoundException();
 		}
 
 		prod.merge(p);
