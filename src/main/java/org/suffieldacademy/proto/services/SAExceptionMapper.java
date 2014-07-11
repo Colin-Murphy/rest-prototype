@@ -1,14 +1,25 @@
 package org.suffieldacademy.proto.services;
 
-import java.lang.Exception;
-import javax.ws.rs.ext;
+import java.lang.Throwable;
+import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 import javax.ws.rs.core.Response;
 
-@Provider
-public class SAExceptionMapper implements ExceptionMapper<javax.ejb.EJBException> {
+import javax.persistence.EntityNotFoundException;
 
-	Response toResponse(EJBException exception) {
-		return Response.status(500).build();
+import javax.ws.rs.core.Response.Status;
+
+@Provider
+public class SAExceptionMapper implements ExceptionMapper<Throwable> {
+
+	public Response toResponse(Throwable exception) {
+
+		if (exception instanceof EntityNotFoundException) {
+			return Response.status(Status.NOT_FOUND).build();
+		}
+
+		else {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 }

@@ -17,6 +17,9 @@ import javax.ws.rs.WebApplicationException;
 import java.io.InputStream;
 import java.io.IOException;
 
+//Not found
+import javax.persistence.EntityNotFoundException;
+
 //Product from xml
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -35,6 +38,7 @@ public class ProductResource {
 	
 	/**
 		Get a product from its id
+		@param id The id of the product to return
 	*/
 	@GET
 	@Path("{id : \\d+}")
@@ -43,7 +47,7 @@ public class ProductResource {
 	
 		Product p = db.get(id);
 		if (p == null) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
+			throw new EntityNotFoundException();
 		}
 		return p;
 	}
@@ -52,6 +56,8 @@ public class ProductResource {
 	/**
 		Get a list of products.
 		Search by adding ?search=query
+
+		@param term An optional search term.
 	*/
 	@GET
 	@Produces({"application/xml","application/json"})
@@ -65,16 +71,27 @@ public class ProductResource {
 	}
 	
 	/**
-		Same thing as above classes, but only return json
-	*/
+		Get a single product. Forced json output
 
+		@param id The id of the product to return.
+	*/
 	@GET
 	@Path("/json/{id : \\d+}")
 	@Produces("application/json")
 	public Product getProductJson(@PathParam("id") int id) {
-		return db.get(id);
+		Product p = db.get(id);
+		if (p == null) {
+			throw new EntityNotFoundException();
+		}
+		return p;
 	}
 
+	/**
+		Get a list of products. Forced json output.
+		Search by adding ?search=query
+
+		@param term An optional search term.
+	*/
 	@GET
 	@Path("/json")
 	@Produces("application/json")
@@ -86,26 +103,35 @@ public class ProductResource {
 		return db.getAll();
 	}
 
+	/**
+		Delete a product from the database
+		@param id The id of the product to delete
+	*/
 	@DELETE
 	@Path("{id : \\d+}")
 	public Response deleteProduct(@PathParam("id") int id) {
 
 		Product p = db.get(id);
 		if (p == null) {
-			return Response.ok().build();
+			throw new EntityNotFoundException();
 		}
 		db.remove(id);
 
 		return Response.ok().build();
 	}
 
+	/**
+		Do a delete from a standard get request, for demonstration purposes only
+		@param id The id of the product to delete
+	*/
 	@GET
 	@Path("/delete/{id : \\d+}")
 	public Response deleteProductFromGet(@PathParam("id") int id) {
 		
 		Product p = db.get(id);
+		//The error response could be handled here, but I let the exception mapper do it for consistant responses.
 		if (p == null) {
-			return Response.notModified().build();
+			throw new EntityNotFoundException();
 		}
 		db.remove(id);
 
@@ -165,7 +191,7 @@ public class ProductResource {
 
 		Product prod = db.get(id);
 		if (prod == null) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
+			throw new EntityNotFoundException();
 		}
 
 		prod.merge(p);
@@ -191,7 +217,7 @@ public class ProductResource {
 
 		Product prod = db.get(id);
 		if (prod == null) {
-			throw new WebApplicationException(Response.Status.NOT_FOUND);
+			throw new EntityNotFoundException();
 		}
 
 		prod.merge(p);
